@@ -1,0 +1,16 @@
+{
+  "blogs": [
+    {
+      "title": "My first blog",
+      "body": "Why do we use it?\nIt is a long established fact that a reader will be distracted  by...",
+      "author": "Mario",
+      "id": 1
+    },
+    {
+      "title": "Does WoW suck?",
+      "body": "I am really not sure about what I should be playing right now...",
+      "author": "Stavros",
+      "id": 2
+    }
+  ]
+}
