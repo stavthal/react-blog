@@ -1,14 +1,14 @@
 {
   "blogs": [
     {
-      "title": "My first blog",
-      "body": "Why do we use it?\nIt is a long established fact that a reader will be distracted  by...",
-      "author": "Mario",
+      "title": "This is a new blog",
+      "body": "This is a new blog",
+      "author": "Stavros",
       "id": 1
     },
     {
-      "title": "Does WoW suck?",
-      "body": "I am really not sure about what I should be playing right now...",
+      "title": "123",
+      "body": "test",
       "author": "Stavros",
       "id": 2
     }

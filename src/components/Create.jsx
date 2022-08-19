@@ -15,15 +15,21 @@ const Create = () => {
 
         setIsPending(true);
 
-        fetch('http://localhost:8000/blogs', {
+        fetch('http://localhost:8001/blogs/create/', {
             method: 'POST',
             headers: { "Content-Type": "application/json"},
             body: JSON.stringify(blog)
-        }).then(()=>{
+        })
+        
+        .then(response => response.json())
+        //the response with code 200
+        .then(()=>{
+            
+            // console.log(blog);
             console.log('new blog added');
             setIsPending(false);
             history.push("/"); //using history to go redirect back to the home page
-        })
+        }).catch(e => console.log('error in fetch'));
     }
 
     return (

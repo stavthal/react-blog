@@ -10,7 +10,7 @@ const useFetch = (url) => {
 
     useEffect(() => {
         const abortCont = new AbortController();
-
+        
 
         setTimeout(() => { //setting a timeout of 1 second to simulate the data loading
         fetch(url, { signal: abortCont.signal})
