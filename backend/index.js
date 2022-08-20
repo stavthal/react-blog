@@ -80,13 +80,20 @@ app.post("/blogs/create", (req,res) => {
     const fetchedData = req.body;
     console.log("Data received");
 
-    const newId = data[data.length-1].id + 1;
+    var newId = 1;
+
+    if (data.length != 0) {
+        newId = data[data.length-1].id + 1;
+    }
+
     //setting a new id to give to the new element
     
     console.log(newId);
 
     //setting the fetchedData new id
+    
     fetchedData.id = newId;
+    console.log('The fetched data id is ' + fetchedData.id);
 
     //pushing the fetched data into the array
     data.push(fetchedData);
