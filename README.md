@@ -4,12 +4,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
-*ATTENTION* For this project, the JSON server is used, so in order for the app to run correctly, in a second terminal type the following:
-npx json-server --watch data/db.json --port 8000
+*ATTENTION* In this version of the project, MongoDB is used to store the data on the cloud so that it's more secure and won't be lost in any case, even after
+server crashes. 
 
-in order to boot up the JSON server that has the data stored in it.
-
-In the project directory, you can run:
+The secret is in a .env file so you will need to setup your own secret in order to use the application properly.
 
 ### `npm start`
 

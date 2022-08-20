@@ -15,61 +15,89 @@ require('dotenv').config(); //.env file
 
 const mongo_database = process.env.MONGOSECRET;
 
+//Connecting using mongoose
+mongoose.connect(mongo_database);
+
+//making the blog JSON model
+const blogModel = {
+    title: {
+        type: String
+    }, 
+    
+    body: {
+        type: String
+    },
+
+    author: {
+        type: String,
+        default: 'Anonymous'
+    }
+};
+
+const Blog = mongoose.model('Blog', blogModel);
+
 
 const app = express();
 
 app.use(express.json()); //using this to accept json POST requests
 
-app.use(cors());
+app.use(cors()); //using cors for local deployment so that we can access the API on the same host
 app.use(bodyParser.urlencoded({extended: true}));
-
-let data = [
-    
-    {
-        "title": 'This is a sample title',
-        "body": 'This is the body',
-        "author": 'Stavros',
-        "id": 64
-    },
-    {
-        "title": 'This is a sample title as well',
-        "body": 'This is the body, too',
-        "author": 'Stavros',
-        "id": 65
-    }
-];
 
 
 
 
 
 app.get("/blogs", (req,res) => {
-    res.json(data);
+    
+    Blog.find({}, (err,dataFound) => {
+        if(!err) {
+            res.json(dataFound);
+        } else {
+            console.log(err);
+        }
+    });
+
     console.log('Data sent!');
 });
 
 app.get("/blogs/:id", (req,res) => {
-    data.forEach((blog) => {
-        if (req.params.id == blog.id) {
-            console.log('Match found');
-            res.json(blog);
-        } 
-    }) 
+    
+    const requestedId = req.params.id;
+
+
+    Blog.findOne({_id: requestedId} , (err,dataFound) => {
+        if (err) {
+            console.log(err);
+            res.send("DONE.")
+        } else {
+            console.log(dataFound);
+            res.json(dataFound);
+        }
+    });
+    
+
 });
 
 
 app.get("/blogs/delete/:id", (req,res) => {
-    console.log('Blog deleted by the server');
-
-    data.filter((item) => {
-        if (req.params.id == item.id) {
-            data.pop(item);
-            console.log(data);
-        }
-    });
 
 
-    res.redirect("/blogs");
+    const requestedId = req.params.id; //fetching the _id from the parameters
+
+    var query = { _id: requestedId};
+   
+
+   Blog.deleteOne(query, function(err, data) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Item deleted");
+        res.send(JSON.stringify(data));
+      }
+   });
+
+
 });
 
 
@@ -78,29 +106,23 @@ app.post("/blogs/create", (req,res) => {
 
 
     const fetchedData = req.body;
-    console.log("Data received");
 
-    var newId = 1;
+    const blog = new Blog({
+        title: fetchedData.title,
+        body: fetchedData.body,
+        author: fetchedData.author
+    });
 
-    if (data.length != 0) {
-        newId = data[data.length-1].id + 1;
-    }
 
-    //setting a new id to give to the new element
-    
-    console.log(newId);
-
-    //setting the fetchedData new id
-    
-    fetchedData.id = newId;
-    console.log('The fetched data id is ' + fetchedData.id);
-
-    //pushing the fetched data into the array
-    data.push(fetchedData);
+    blog.save((err) => {
+        if(!err) {
+           res.json({body: "Successfully created!"});
+        } else {
+            res.json(err);
+        }
+    })
 
     
-
-    res.redirect("/blogs");
 });
 
 const PORT = process.env.PORT || 8001;
