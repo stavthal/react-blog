@@ -60,6 +60,15 @@ app.get("/blogs/:id", (req,res) => {
 
 app.get("/blogs/delete/:id", (req,res) => {
     console.log('Blog deleted by the server');
+
+    data.filter((item) => {
+        if (req.params.id == item.id) {
+            data.pop(item);
+            console.log(data);
+        }
+    });
+
+
     res.redirect("/blogs");
 });
 
